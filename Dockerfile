@@ -43,8 +43,11 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
+    curl -sSL https://get.rvm.io | bash -s stable --ruby
+RUN source /usr/local/rvm/scripts/rvm && rvm install 1.9.3
+
 RUN gem install rubygems-update \
-    rvm \
     json \
     bundler \
     awscli
@@ -73,11 +76,8 @@ RUN cd /data/repos && git clone https://github.com/jkb-axios/digitalfoosball.git
 
 # TODO - configure for digitalfoosball
 
-# TODO - start digitalfoosball/etc.
-
 # Define working directory
-#WORKDIR /data/repos/jkb-digitalfoosball
-WORKDIR /data/repos
+WORKDIR /data/repos/jkb-digitalfoosball
 
 # Define default command
 CMD ["bash"]
